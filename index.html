@@ -6,7 +6,7 @@
 <title>Дитяча музична скарбничка</title>
 <style>
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --site-primary: #142D4E;
   --site-on-primary: #FFFFFF;
   --site-secondary: #D8AD5B;
@@ -26,8 +26,8 @@
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: light-dark(var(--site-background), #101C2C); color: light-dark(var(--site-on-background), #F6F0E4); font-family: var(--site-font-body); }
-#site-root { width: 100%; min-height: 100vh; border-radius: 0; background-color: light-dark(var(--site-background), #101C2C); overflow: hidden; }
+body { margin: 0; background: var(--site-background); color: var(--site-on-background); font-family: var(--site-font-body); }
+#site-root { width: 100%; min-height: 100vh; border-radius: 0; background-color: var(--site-background); overflow: hidden; }
 a { color: inherit; }
 button { font: inherit; cursor: pointer; }
 .wrap { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
@@ -88,12 +88,12 @@ h1 { font-size: clamp(40px, 6vw, 70px); line-height: 1.03; margin: 18px 0 22px; 
 .video-card { overflow: hidden; border-radius: calc(15px * var(--site-radius-scale)); background: var(--surface); border: 1px solid var(--line); }
 .video-art { min-height: 190px; display: grid; place-items: center; background: linear-gradient(135deg, #19395D, #2F6481); color: #E9C980; position: relative; }
 .video-art::before { content: "♫"; font-size: 90px; opacity: .22; position: absolute; }
-.video-art span { z-index: 1; width: 55px; height: 55px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.6); font-size: 20px; color: #fff; padding-left: 3px; }
+.video-art span { z-index: 1; width: 55px; height: 55px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.6); font-size: 25px; color: #fff; }
 .video-card.featured .video-art { min-height: 235px; background: linear-gradient(135deg, #1D4664, #B57D28); }
 .video-info { padding: 18px 20px 20px; }
 .video-info h3 { font-size: 23px; margin-bottom: 7px; }
 .video-info p { color: var(--muted); font-size: 12px; line-height: 1.6; margin-bottom: 14px; }
-.video-info button { border: 0; background: none; color: #9B6A1F; padding: 0; font-weight: 800; font-size: 12px; }
+.video-pending { display: inline-block; color: #8A6B37; background: #F5EBD8; border-radius: 7px; padding: 7px 9px; font-size: 11px; font-weight: 700; }
 .packages { background: var(--site-primary); color: #fff; }
 .packages .section-head p { color: #D9E1EB; }
 .package-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 38px; align-items: center; }
@@ -111,6 +111,7 @@ h1 { font-size: clamp(40px, 6vw, 70px); line-height: 1.03; margin: 18px 0 22px; 
 .role { color: var(--muted); font-size: 12px; margin-bottom: 18px; }
 .contact-link { display: block; margin: 10px 0; font-size: 13px; text-decoration: none; color: #355A7E; }
 .contact-link:hover { text-decoration: underline; }
+.contact-note { color: var(--muted); font-size: 12px; line-height: 1.6; margin: 12px 0 0; }
 footer { background: #0D2037; color: #D6DFE8; padding: 24px 0; font-size: 11px; }
 .footer-inner { display: flex; justify-content: space-between; gap: 20px; align-items: center; }
 .notice { position: fixed; left: 50%; bottom: 22px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 10; background: #142D4E; color: #fff; padding: 14px 18px; border: 1px solid #D8AD5B; border-radius: 12px; box-shadow: 0 12px 35px rgba(0,0,0,.25); max-width: min(520px, calc(100% - 28px)); font-size: 13px; line-height: 1.5; transition: .2s; }
@@ -218,11 +219,11 @@ footer { background: #0D2037; color: #D6DFE8; padding: 24px 0; font-size: 11px; 
   </section>
   <section class="section" id="videos">
     <div class="wrap">
-      <div class="section-head"><div><div class="kicker">Дивіться та надихайтеся</div><h2>Відео</h2></div><p>Дитячі роботи — окремо, а професійні рекламні відео — у власній добірці.</p></div>
+      <div class="section-head"><div><div class="kicker">Дивіться та надихайтеся</div><h2>Відео</h2></div><p>Музичні кліпи та відеороботи проєкту «Дитяча музична скарбничка».</p></div>
       <div class="video-grid">
-        <article class="video-card featured"><div class="video-art"><video controls controlsList="nodownload" preload="metadata" playsinline aria-label="Відео: Україна-мама"><source src="assets/ukraina-mama.mp4" type="video/mp4">Ваш браузер не підтримує відео.</video></div><div class="video-info"><h3>Україна-мама</h3><p>Дитячий музичний кліп</p><button class="video-button" data-title="Україна-мама">Переглянути відео ↗</button></div></article>
-        <article class="video-card"><div class="video-art"><video controls controlsList="nodownload" preload="metadata" playsinline aria-label="Відео: Я мрію жити"><source src="assets/ya-mriyu-zhyty.mp4" type="video/mp4">Ваш браузер не підтримує відео.</video></div><div class="video-info"><h3>Я мрію жити</h3><p>Рекламна робота · дорослий репертуар</p><button class="video-button" data-title="Я мрію жити">Переглянути відео ↗</button></div></article>
-        <article class="video-card"><div class="video-art"><video controls controlsList="nodownload" preload="metadata" playsinline aria-label="Відео: Осінь"><source src="assets/osin.mp4" type="video/mp4">Ваш браузер не підтримує відео.</video></div><div class="video-info"><h3>Осінь</h3><p>Рекламна робота · дорослий репертуар</p><button class="video-button" data-title="Осінь">Переглянути відео ↗</button></div></article>
+        <article class="video-card featured"><div class="video-art"><span aria-hidden="true">♫</span></div><div class="video-info"><h3>Україна-мама</h3><p>Дитячий музичний кліп</p><span class="video-pending">Відео готується до публікації</span></div></article>
+        <article class="video-card"><div class="video-art"><span aria-hidden="true">♫</span></div><div class="video-info"><h3>Я мрію жити</h3><p>Музична відеоробота</p><span class="video-pending">Відео готується до публікації</span></div></article>
+        <article class="video-card"><div class="video-art"><span aria-hidden="true">♫</span></div><div class="video-info"><h3>Осінь</h3><p>Музична відеоробота</p><span class="video-pending">Відео готується до публікації</span></div></article>
       </div>
     </div>
   </section>
@@ -238,8 +239,8 @@ footer { background: #0D2037; color: #D6DFE8; padding: 24px 0; font-size: 11px; 
     <div class="wrap">
       <div class="section-head"><div><div class="kicker">Будьмо на зв’язку</div><h2>Контакти</h2></div><p>Пишіть нам щодо пісень, музичних комплектів і співпраці.</p></div>
       <div class="contact-grid">
-        <article class="contact-card"><h3>Юрій Цьосенко</h3><p class="role">Композитор · аранжувальник · головний адміністратор сайту</p><a class="contact-link" href="tel:+380680797363">☎ +380 68 079 73 63</a><a class="contact-link" href="https://www.facebook.com/yurii.cesenko.2025" target="_blank" rel="noreferrer">Facebook ↗</a></article>
-        <article class="contact-card"><h3>Світлана Безродня</h3><p class="role">Композиторка · авторка текстів · модераторка сайту</p><a class="contact-link" href="tel:+48508284955">☎ +48 508 284 955</a><a class="contact-link" href="https://www.facebook.com/profile.php?id=100088916535161" target="_blank" rel="noreferrer">Facebook ↗</a></article>
+        <article class="contact-card"><h3>Юрій Цьосенко</h3><p class="role">Композитор · аранжувальник · головний адміністратор сайту</p><a class="contact-link" href="tel:+380680797363">☎ +380 68 079 73 63</a><a class="contact-link" href="https://wa.me/380680797363" target="_blank" rel="noreferrer">WhatsApp ↗</a><p class="contact-note">Telegram та Viber: за номером телефону</p></article>
+        <article class="contact-card"><h3>Світлана Безродня</h3><p class="role">Композиторка · авторка текстів · модераторка сайту</p><p class="contact-note">Контактні дані буде додано після узгодження.</p></article>
       </div>
     </div>
   </section>
