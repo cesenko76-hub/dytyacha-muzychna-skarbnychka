@@ -307,12 +307,12 @@ footer{background:#061537}
     </div>
   </section>
 </main>
-<footer><div class="wrap footer-inner"><span>© Дитяча музична скарбничка</span><span>Авторські пісні для маленьких артистів</span></div></footer>
+<footer><div class="wrap footer-inner"><span>© Дитяча музична скарбничка</span><span>Авторські пісні для маленьких артистів · <a href="admin.html" style="color:inherit;text-decoration:underline">Керування</a></span></div></footer>
 <div class="notice" id="notice" role="status" aria-live="polite"></div>
 </div>
 <script>
 const search = document.getElementById('song-search');
-const cards = Array.from(document.querySelectorAll('.song-card'));
+let cards = Array.from(document.querySelectorAll('.song-card'));
 const count = document.getElementById('song-count');
 search.addEventListener('input', () => {
   const query = search.value.trim().toLocaleLowerCase('uk');
@@ -324,6 +324,34 @@ search.addEventListener('input', () => {
   });
   count.textContent = `${visible} ${visible === 1 ? 'пісня' : visible >= 2 && visible <= 4 ? 'пісні' : 'пісень'} у каталозі`;
 });
+// Additional songs published by the authors through admin.html.
+const songGrid=document.querySelector('#songs .song-grid');
+function safeText(value){return typeof value==='string'?value:''}
+function addPublishedSong(song,index){
+ if(!song||!safeText(song.title)||!/^assets\/[a-zA-Z0-9_-]+\.mp3$/.test(song.audio))return;
+ const card=document.createElement('article');card.className='song-card';
+ card.dataset.search=[song.title,song.lyrics,song.music,song.arrangement].map(safeText).join(' ').toLocaleLowerCase('uk');
+ const top=document.createElement('div');top.className='song-top';
+ const number=document.createElement('span');number.className='song-number';number.textContent='ПІСНЯ '+String(index+10).padStart(2,'0');
+ const icon=document.createElement('span');icon.className='note-icon';icon.textContent='♫';top.append(number,icon);
+ const title=document.createElement('h3');title.textContent=song.title;
+ const credits=document.createElement('p');credits.className='credits';
+ [['Слова:',song.lyrics],['Музика:',song.music],['Аранжування:',song.arrangement]].forEach(([label,value],i)=>{if(i)credits.append(document.createElement('br'));const b=document.createElement('strong');b.textContent=label+' ';credits.append(b,document.createTextNode(safeText(value)))});
+ const audio=document.createElement('audio');audio.className='demo-player';audio.controls=true;audio.preload='none';audio.setAttribute('controlsList','nodownload');audio.setAttribute('aria-label','Демоверсія: '+song.title);
+ const source=document.createElement('source');source.src=song.audio;source.type='audio/mpeg';audio.append(source);
+ card.append(top,title,credits,audio);songGrid.append(card);
+}
+async function loadPublishedSongs(){
+ try{
+  const response=await fetch('data/songs.json',{cache:'no-store'});if(!response.ok)throw Error('Catalog unavailable');
+  const songs=await response.json();if(!Array.isArray(songs))throw Error('Invalid catalog');
+  songs.forEach(addPublishedSong);
+  cards=Array.from(document.querySelectorAll('.song-card'));
+  search.dispatchEvent(new Event('input'));
+ }catch(e){console.warn('Additional songs not loaded:',e)}
+}
+loadPublishedSongs();
+
 const notice = document.getElementById('notice');
 let noticeTimer;
 function showNotice(message) {
