@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Керування піснями — Дитяча музична скарбничка</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;background:#edf2fa;color:#102b56}
+header{background:linear-gradient(120deg,#07173d,#133d7b);color:#fff;padding:28px 20px;border-bottom:4px solid #e4b65c}
+.wrap{max-width:760px;margin:auto}h1{font:700 clamp(25px,4vw,37px) Georgia,serif;margin:0 0 7px;color:#f9d88e}h2{font-size:21px;margin:0 0 15px}p{margin:8px 0 18px}
+main{padding:26px 16px 70px}.panel{background:white;padding:25px;border:1px solid #d7e0f0;border-radius:18px;margin-bottom:20px;box-shadow:0 8px 25px #102b5610}
+label{display:block;font-weight:650;margin:13px 0 5px}input{width:100%;padding:12px 13px;border:1px solid #aabbd1;border-radius:9px;font:inherit;color:#102b56;background:#fff}input[type=file]{padding:10px}
+button{background:#0d3775;color:#fff;border:0;border-radius:10px;padding:13px 22px;font-weight:700;cursor:pointer;margin-top:18px}button:disabled{opacity:.5;cursor:wait}
+.note{font-size:13px;color:#5b6d84}.warn{background:#fff5dd;border-left:4px solid #dba43d;padding:13px;border-radius:6px}
+#status{white-space:pre-wrap;border-radius:10px;padding:14px;background:#e8eff9;display:none}#status.error{background:#ffe7e7;color:#871e24}#status.success{background:#e2f6e8;color:#14542e}
+a{color:#0d478f}small{color:#a9bedb}#editor[hidden]{display:none}
+</style></head><body>
+<header><div class="wrap"><h1>Додати нову пісню</h1><p>Дитяча музична скарбничка · панель авторів</p><a href="./" style="color:#ffda91">← Повернутися на сайт</a></div></header>
+<main class="wrap">
+<section class="panel" id="login"><h2>1. Доступ до керування</h2>
+<p>Увійдіть за допомогою особистого GitHub-токена з дозволом <b>Contents: Read and write</b> для цього репозиторію.</p>
+<label for="token">GitHub-токен</label><input id="token" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…">
+<button id="connect">Перевірити доступ</button>
+<p class="note">Токен не зберігається в браузері та не надсилається на сторонні сервери. Він використовується лише для запитів до GitHub. Нікому не пересилайте свій токен.</p>
+</section>
+<section class="panel" id="editor" hidden><h2>2. Нова демоверсія</h2><p id="account" class="note"></p>
+<form id="song-form">
+<label for="title">Назва пісні *</label><input id="title" required maxlength="160" placeholder="Назва українською">
+<label for="lyrics">Автор слів *</label><input id="lyrics" required maxlength="200">
+<label for="music">Автор музики *</label><input id="music" required maxlength="200">
+<label for="arrangement">Аранжування *</label><input id="arrangement" required maxlength="200">
+<label for="audio">Демоверсія MP3 *</label><input id="audio" type="file" accept=".mp3,audio/mpeg" required>
+<p class="note">Один MP3 до 20 МБ. Існуючі файли та пісні не замінюються.</p>
+<div class="warn">Натискаючи «Додати пісню», ви публікуєте її для всіх відвідувачів сайту. Перевірте назву й авторів.</div>
+<button id="publish" type="submit">Додати пісню на сайт</button>
+<button id="logout" type="button" style="background:#66768e;margin-left:8px">Вийти</button>
+</form></section>
+<div id="status" role="status" aria-live="polite"></div>
+<section class="panel"><h2>Як отримати доступ</h2><p>Кожен автор використовує власний обліковий запис GitHub. Власник репозиторію надає Світлані право запису через <b>Settings → Collaborators → Add people</b>. Після прийняття запрошення вона створює власний <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">fine-grained token</a> для цього репозиторію з дозволом <b>Contents: Read and write</b>.</p><p class="note">Сайт статичний, тому права визначає GitHub. Не вводьте тут пароль GitHub — лише окремий токен.</p></section>
+</main>
+<script>
+'use strict';
+const OWNER='cesenko76-hub',REPO='dytyacha-muzychna-skarbnychka';
+const API='https://api.github.com/repos/'+OWNER+'/'+REPO;
+let token='',loginName='';
+const $=id=>document.getElementById(id);
+function status(msg,kind=''){const e=$('status');e.style.display='block';e.className=kind;e.textContent=msg;e.scrollIntoView({block:'nearest',behavior:'smooth'});}
+async function api(url,opts={}){
+ const r=await fetch(url,{...opts,headers:{'Accept':'application/vnd.github+json','Authorization':'Bearer '+token,'X-GitHub-Api-Version':'2022-11-28',...(opts.headers||{})}});
+ let data;try{data=await r.json()}catch{data={}};
+ if(!r.ok)throw Error((data.message||'GitHub HTTP '+r.status)+(r.status===403?' — перевірте дозвіл Contents: Read and write.':''));
+ return data;
+}
+function base64Utf8(str){const bytes=new TextEncoder().encode(str);let b='';for(let i=0;i<bytes.length;i+=8192)b+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(b);}
+async function fileBase64(file){const buf=new Uint8Array(await file.arrayBuffer());let b='';for(let i=0;i<buf.length;i+=8192)b+=String.fromCharCode(...buf.subarray(i,i+8192));return btoa(b);}
+$('connect').onclick=async()=>{
+ const value=$('token').value.trim();if(!value)return status('Введіть токен.','error');
+ token=value;$('connect').disabled=true;
+ try{
+  const me=await api('https://api.github.com/user');
+  const repo=await api(API);
+  if(!repo.permissions?.push)throw Error('Цей обліковий запис не має права запису до репозиторію.');
+  loginName=me.login;$('account').textContent='Підключено: '+loginName;
+  $('token').value='';$('editor').hidden=false;$('login').hidden=true;status('Доступ підтверджено. Можна додавати нову пісню.','success');
+ }catch(e){token='';status(e.message,'error')}finally{$('connect').disabled=false}
+};
+$('logout').onclick=()=>{token='';loginName='';$('editor').hidden=true;$('login').hidden=false;status('Вихід виконано.','success')};
+$('song-form').onsubmit=async(e)=>{
+ e.preventDefault();if(!token)return status('Спочатку увійдіть.','error');
+ const file=$('audio').files[0];if(!file||!(/\.mp3$/i.test(file.name)))return status('Оберіть MP3-файл.','error');
+ if(file.size>20*1024*1024)return status('MP3 має бути меншим за 20 МБ.','error');
+ const song={id:'song-'+crypto.randomUUID(),title:$('title').value.trim(),lyrics:$('lyrics').value.trim(),music:$('music').value.trim(),arrangement:$('arrangement').value.trim()};
+ if(Object.values(song).some(v=>!v))return status('Заповніть усі поля.','error');
+ const slug='demo-'+Date.now()+'-'+crypto.randomUUID().slice(0,8)+'.mp3';song.audio='assets/'+slug;
+ $('publish').disabled=true;
+ try{
+  status('Завантаження MP3 на GitHub…');
+  await api(API+'/contents/'+song.audio,{method:'PUT',body:JSON.stringify({message:'Add demo audio: '+song.title,content:await fileBase64(file),branch:'main'})});
+  status('MP3 завантажено. Додаємо картку до каталогу…');
+  let ok=false;
+  for(let attempt=0;attempt<3&&!ok;attempt++){
+   let sha,items=[];
+   try{
+    const data=await api(API+'/contents/data/songs.json?ref=main');
+    sha=data.sha;
+    const raw=atob(data.content.replace(/\s/g,''));const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));
+    items=JSON.parse(new TextDecoder().decode(bytes));
+    if(!Array.isArray(items))throw Error('Некоректний каталог.');
+   }catch(err){if(!/404/.test(err.message))throw err;}
+   if(items.some(x=>x.audio===song.audio||x.id===song.id))throw Error('Пісня вже додана.');
+   items.push(song);
+   try{
+    await api(API+'/contents/data/songs.json',{method:'PUT',body:JSON.stringify({message:'Publish new song: '+song.title,content:base64Utf8(JSON.stringify(items,null,2)+'\n'),branch:'main',...(sha?{sha}:{})})});ok=true;
+   }catch(err){if(attempt===2||!/409|sha|conflict/i.test(err.message))throw err;}
+  }
+  status('Готово! Пісню «'+song.title+'» додано. На сайті вона з’явиться після оновлення GitHub Pages (зазвичай кілька хвилин).','success');
+  $('song-form').reset();
+ }catch(err){status('Не вдалося завершити публікацію: '+err.message+'\nЯкщо MP3 уже завантажився, не повторюйте одразу: спершу перевірте каталог.','error')}
+ finally{$('publish').disabled=false}
+};
+</script></body></html>
