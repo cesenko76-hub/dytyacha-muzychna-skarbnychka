@@ -118,6 +118,43 @@ footer { background: #0D2037; color: #D6DFE8; padding: 24px 0; font-size: 11px; 
 .notice.show { opacity: 1; transform: translate(-50%, 0); }
 @media (max-width: 850px) { .nav { align-items: flex-start; padding: 18px 0; flex-direction: column; } nav { justify-content: flex-start; gap: 14px 18px; } .about-grid,.package-grid { grid-template-columns: 1fr; } .song-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .video-grid { grid-template-columns: 1fr 1fr; } .video-card.featured { grid-column: 1 / -1; } }
 .hero::after { opacity: .18; }\n@media (max-width: 560px) { .wrap { width: min(100% - 28px, 1160px); } .hero { padding: 52px 0 58px; } .hero::before { width: 52vw; opacity: .55; } .hero p { font-size: 15px; } .btn-outline { margin: 10px 0 0; } .section { padding: 52px 0; } .section-head { display: block; } .section-head p { margin-top: 14px; } .song-grid,.video-grid,.contact-grid { grid-template-columns: 1fr; } .video-card.featured { grid-column: auto; } .catalog-tools { align-items: stretch; flex-direction: column; } .count { white-space: normal; } .footer-inner { flex-direction: column; align-items: flex-start; } }
+
+/* 2026 visual refresh — retains existing content and media */
+body{background:#eef4ff}
+header{background:linear-gradient(100deg,#06153c,#0b2863 65%,#071743);border-bottom:2px solid #e6b35c}
+.nav{min-height:78px}
+.brand-mark{background:linear-gradient(135deg,#ffe6a4,#d99a34);color:#08245a;border:0;box-shadow:0 0 18px #e7b14c55}
+nav a{padding:10px 12px;border-radius:12px;transition:background .2s,color .2s}
+nav a:hover{background:#ffffff18;color:#ffd27c}
+.hero{background:radial-gradient(circle at 50% 5%,#3276bd88,transparent 38%),radial-gradient(circle at 90% 80%,#efb45144,transparent 30%),linear-gradient(135deg,#071846,#092b70 60%,#153c78);padding:98px 0 106px;border-bottom:5px solid #e3b15f;overflow:hidden}
+.hero::before{content:"♪ ♫ ♬";position:absolute;inset:auto 3% 2% auto;width:auto;height:auto;border:0;transform:none;color:#ffd57e;font-size:clamp(55px,9vw,130px);letter-spacing:.2em;opacity:.25;white-space:nowrap}
+.hero::after{content:"𝄞";font-size:clamp(180px,28vw,340px);right:7%;top:0;opacity:.15;color:#ffd17b}
+.hero-inner{max-width:920px;text-align:center;margin:0 auto}
+.hero h1{font-family:Georgia,serif;font-size:clamp(44px,6.5vw,78px);color:#fff3d9;text-shadow:0 4px 22px #0006}
+.hero p{margin:0 auto 28px;font-size:18px}
+.eyebrow,.kicker{color:#d7a04a}
+.btn-gold{background:linear-gradient(135deg,#ffe4a2,#e7af4d);box-shadow:0 8px 22px #0002;color:#09214b}
+.section{padding:76px 0}
+#about{background:linear-gradient(180deg,#fffaf0,#f4f7ff)}
+.about-copy h2,.section-head h2{color:#0b2c68;font-weight:700}
+.about-note{background:linear-gradient(135deg,#09225c,#1253a0);border:2px solid #d9a64e;box-shadow:0 20px 40px #12275c22}
+.catalog{background:linear-gradient(180deg,#f0f5ff,#fffaf0)}
+.song-grid{gap:20px}
+.song-card{background:#fff;border:1px solid #e8d6b7;box-shadow:0 12px 28px #102d6a16;border-radius:20px}
+.song-card:hover{border-color:#d7a24c;box-shadow:0 18px 40px #102d6a30}
+.song-number{color:#ba842c}
+.note-icon{background:#ffedc9;color:#0b3677}
+.song-card h3{color:#092d6c;font-weight:700}
+.song-card audio{accent-color:#0a3b83}
+#videos{background:linear-gradient(180deg,#e2eeff,#f3f7ff)}
+.video-card{border:1px solid #c9d9f4;box-shadow:0 12px 28px #102d6a19}
+.video-art{background:linear-gradient(135deg,#08275f,#2364ad)}
+.packages{background:radial-gradient(circle at 80% 10%,#2b63a0,transparent 38%),linear-gradient(135deg,#06143e,#0a3476);border-top:3px solid #dba850;border-bottom:3px solid #dba850}
+#contacts{background:#fffaf2}
+.contact-card{border:1px solid #e4c993;box-shadow:0 12px 28px #102d6a15}
+footer{background:#061537}
+@media(max-width:560px){.hero{padding:62px 0 74px}.hero-inner{text-align:center}.hero p{font-size:15px}.hero::before{font-size:45px}.section{padding:54px 0}.btn-outline{margin:10px 0 0}.nav{gap:14px}nav a{padding:7px 9px}}
+
 </style>
 </head>
 <body>
