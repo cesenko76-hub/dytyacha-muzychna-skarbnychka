@@ -155,6 +155,31 @@ nav a:hover{background:#ffffff18;color:#ffd27c}
 footer{background:#061537}
 @media(max-width:560px){.hero{padding:62px 0 74px}.hero-inner{text-align:center}.hero p{font-size:15px}.hero::before{font-size:45px}.section{padding:54px 0}.btn-outline{margin:10px 0 0}.nav{gap:14px}nav a{padding:7px 9px}}
 
+
+/* Approved showcase layout */
+.hero{padding:38px 0 46px}
+.hero-showcase{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) minmax(0,1fr);align-items:center;gap:20px;max-width:1300px}
+.hero-center{text-align:center;position:relative;z-index:1}
+.hero-center h1{font-size:clamp(30px,4.1vw,60px);line-height:1.14;margin:15px 0 17px;color:#ffdb8a;font-weight:700}
+.hero-center h1 em{font-size:.91em;font-style:normal;color:white;letter-spacing:.055em}
+.hero-center p{font-size:clamp(14px,1.5vw,18px);line-height:1.6}
+.hero-sparkles{color:#ffce6b;letter-spacing:12px;font-size:24px;opacity:.85}
+.hero-staff{color:#e7b45e;font-size:clamp(30px,5vw,68px);white-space:nowrap;margin-top:35px;text-shadow:0 0 16px #f8bf5c88}
+.creator-panel{border:3px solid #f0bd66;border-radius:22px;overflow:hidden;background:#071a46;box-shadow:0 14px 30px #0006;align-self:stretch;display:flex;flex-direction:column;min-height:310px}
+.creator-portrait{flex:1;min-height:250px;background:linear-gradient(135deg,#224d8e,#071b4d);background-size:cover;background-position:center}
+.creator-portrait-yurii{background-image:url('assets/yurii.jpg')}
+.creator-portrait-svitlana{background-image:url('assets/svitlana.jpg')}
+.creator-label{padding:16px 10px 20px;text-align:center;border-top:2px solid #e7b05a;display:flex;flex-direction:column;gap:6px}
+.creator-label strong{font-family:Georgia,serif;color:#f4c879;font-size:clamp(16px,1.8vw,23px)}
+.creator-label span{font-size:12px;color:#fff;line-height:1.4}
+.highlights{background:linear-gradient(180deg,#fff,#fff7e9);border-bottom:1px solid #e8d6b7}
+.highlights-inner{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:22px 0;color:#0b2c68;font-weight:700;font-size:13px}
+.highlights-inner span{padding:7px 0}
+.hero::before{pointer-events:none;opacity:.13}
+.hero::after{pointer-events:none;opacity:.07}
+@media(max-width:850px){.hero-showcase{grid-template-columns:1fr 1fr;gap:14px}.hero-center{grid-column:1/-1;grid-row:1}.creator-panel{min-height:280px}.creator-portrait{min-height:240px}.hero-staff{margin-top:8px}}
+@media(max-width:560px){.hero-showcase{grid-template-columns:1fr;max-width:400px}.hero-center{grid-column:1;grid-row:1}.creator-yurii{grid-row:2}.creator-svitlana{grid-row:3}.creator-panel{min-height:0}.creator-portrait{min-height:300px}.hero-sparkles{font-size:18px}.hero-staff{font-size:36px}.highlights-inner{display:grid;grid-template-columns:1fr 1fr;gap:8px}.highlights-inner span{font-size:11px}.hero{padding:32px 0}}
+
 </style>
 </head>
 <body>
@@ -171,15 +196,14 @@ footer{background:#061537}
   </div>
 </header>
 <main>
-  <section class="hero" id="home">
-    <div class="wrap hero-inner">
-      <div class="eyebrow">Авторські дитячі пісні</div>
-      <h1>Музика, що<br>росте разом із дітьми</h1>
-      <p>Запрошуємо до нашої музичної скарбнички — тут живуть щирі пісні для маленьких артистів, концертів, конкурсів і святкових виступів.</p>
-      <a class="btn btn-gold" href="#songs">Обрати пісню <span>↗</span></a>
-      <a class="btn btn-outline" href="#about">Познайомитися з нами</a>
+<section class="hero" id="home">
+    <div class="wrap hero-showcase">
+      <div class="creator-panel creator-yurii"><div class="creator-portrait creator-portrait-yurii" role="img" aria-label="Юрій Цьосенко у музичній студії"></div><div class="creator-label"><strong>Юрій Цьосенко</strong><span>Композитор · аранжувальник</span></div></div>
+      <div class="hero-center"><div class="hero-sparkles" aria-hidden="true">✦ ♪ ✧ ♫ ✦</div><div class="eyebrow">Авторські дитячі пісні</div><h1>Дитяча музична<br><em>СКАРБНИЧКА</em></h1><p>Авторські дитячі пісні для яскравого дитинства</p><div class="hero-actions"><a class="btn btn-gold" href="#songs">Слухати пісні ↗</a><a class="btn btn-outline" href="#about">Про нас</a></div><div class="hero-staff" aria-hidden="true">𝄞　♪　♫　♬　♪</div></div>
+      <div class="creator-panel creator-svitlana"><div class="creator-portrait creator-portrait-svitlana" role="img" aria-label="Світлана Безродня з мікрофоном"></div><div class="creator-label"><strong>Світлана Безродня</strong><span>Композиторка · авторка текстів</span></div></div>
     </div>
   </section>
+  <div class="highlights"><div class="wrap highlights-inner"><span>♫ &nbsp; Авторські пісні для дітей</span><span>♥ &nbsp; Сучасне звучання</span><span>✦ &nbsp; Для садочків, шкіл та студій</span><span>♬ &nbsp; Фонограми та ноти</span></div></div>
   <section class="section" id="about">
     <div class="wrap about-grid">
       <div class="about-copy">
