@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": "song-9cbac25d-1720-406d-9002-5f86c421acfb",
+    "title": "Зима",
+    "lyrics": "Юрій Цьосенко",
+    "music": "Юрій Цьосенко",
+    "arrangement": "Юрій Цьосенко",
+    "audio": "assets/demo-1792878018317-69ea0cec.mp3"
+  }
+]
